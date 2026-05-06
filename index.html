@@ -92,8 +92,11 @@ footer {
 <div class="card">ราดหน้า - 55 บาท</div>
 <h2>🛒 รายการสั่งอาหาร</h2>
 <div id="cart"></div>
-
 <script>
+// 👉 ดึงเลขโต๊ะจาก URL เช่น ?table=1
+const urlParams = new URLSearchParams(window.location.search);
+const table = urlParams.get('table') || "ไม่ระบุโต๊ะ";
+
 let cart = [];
 
 function addToCart(name, price) {
@@ -102,11 +105,11 @@ function addToCart(name, price) {
 }
 
 function renderCart() {
-  let html = "";
+  let html = `<div class="card">โต๊ะ: ${table}</div>`;
   let total = 0;
 
   cart.forEach(item => {
-    total += Number(item.price);
+    total += item.price;
     html += `<div class="card">${item.name} - ${item.price} บาท</div>`;
   });
 
@@ -115,17 +118,19 @@ function renderCart() {
 }
 
 function sendOrder() {
-  let text = "ออเดอร์:\n";
+  let text = `โต๊ะ: ${table}\nออเดอร์:\n`;
   let total = 0;
 
   cart.forEach(item => {
     text += `- ${item.name} ${item.price} บาท\n`;
-    total += Number(item.price);
+    total += item.price;
   });
 
   text += `รวม ${total} บาท`;
 
   window.open("https://line.me/R/msg/text/?" + encodeURIComponent(text));
+}
+</script>
 }
 </script>
 <h2>⭐ รีวิวลูกค้า</h2>
